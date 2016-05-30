@@ -1,5 +1,6 @@
-package hello;
+package hello.test;
 
+import hello.config.Config;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -7,15 +8,15 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
-@Import(TestIT.Config.class)
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {Config.class})
 public class TestIT {
 
     @Value("${test.server.port}")
@@ -24,7 +25,7 @@ public class TestIT {
     @Test
     public void testSomething() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        String uri = String.format("%s:%s/%s","http://localhost", port,"home");
+        String uri = String.format("%s:%s/%s", "http://localhost", port, "home");
         HttpGet httpGet = new HttpGet(uri);
         CloseableHttpResponse response1 = httpclient.execute(httpGet);
         try {
@@ -36,15 +37,5 @@ public class TestIT {
             response1.close();
         }
     }
-
-    @Configuration
-    @PropertySource(value={"classpath:config.properties"})
-    class Config{
-
-        @Bean
-        public PropertySourcesPlaceholderConfigurer propertyConfigurer() {
-            return new PropertySourcesPlaceholderConfigurer();
-        }
-
-    }
 }
+

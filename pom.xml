@@ -25,6 +25,23 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.datastax.cassandra</groupId>
+            <artifactId>cassandra-driver-core</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.cassandraunit</groupId>
+            <artifactId>cassandra-unit</artifactId>
+            <version>3.0.0.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-test</artifactId>
+            <version>4.2.6.RELEASE</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -96,9 +113,7 @@
                         </goals>
                         <configuration>
                             <mainClass>hello.Application</mainClass>
-                            <arguments>
-                                <argument>--server.port=${tomcat.http.port}</argument>
-                            </arguments>
+                            <jvmArguments>-Dserver.port=${tomcat.http.port}</jvmArguments>
                         </configuration>
                     </execution>
                     <execution>
